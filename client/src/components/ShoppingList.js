@@ -18,6 +18,11 @@ export class ShoppingList extends Component {
   //   ],
   // };
   //now we shall use redux instead
+  static propTypes = {
+    getItems: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
 
   componentDidMount() {
     //dispatching
@@ -37,14 +42,17 @@ export class ShoppingList extends Component {
               {items.map(({ _id, name }) => (
                 <CSSTransition key={_id} timeout={500} classNames="fade">
                   <ListGroupItem>
-                    <Button
-                      className="remove-btn"
-                      color="danger"
-                      size="sm"
-                      onClick={this.onDeleteClick.bind(this, _id)}
-                    >
-                      &times;
-                    </Button>
+                    {this.props.isAuthenticated ? (
+                      <Button
+                        className="remove-btn"
+                        color="danger"
+                        size="sm"
+                        onClick={this.onDeleteClick.bind(this, _id)}
+                      >
+                        &times;
+                      </Button>
+                    ) : null}
+
                     {name}
                   </ListGroupItem>
                 </CSSTransition>
@@ -57,13 +65,9 @@ export class ShoppingList extends Component {
   }
 }
 
-ShoppingList.propTypes = {
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   item: state.item,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { getItems, deleteItem })(ShoppingList);
