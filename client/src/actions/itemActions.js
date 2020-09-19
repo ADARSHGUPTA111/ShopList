@@ -23,7 +23,7 @@ export const getItems = () => (dispatch) => {
 
 export const deleteItem = (id) => (dispatch, getState) => {
   axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
+    .delete(`/api/items/${id}` /*tokenConfig(getState)*/)
     .then((res) =>
       dispatch({
         type: DELETE_ITEM,
@@ -37,7 +37,7 @@ export const deleteItem = (id) => (dispatch, getState) => {
 
 export const addItem = (item) => (dispatch, getState) => {
   axios
-    .post("/api/items", item, tokenConfig(getState))
+    .post("/api/items", item /*tokenConfig(getState)*/)
     .then((res) =>
       dispatch({
         type: ADD_ITEM,
@@ -47,6 +47,7 @@ export const addItem = (item) => (dispatch, getState) => {
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
+  // uncomment tokenConfig after resolving the issue
 };
 
 export const setItemsLoading = () => {

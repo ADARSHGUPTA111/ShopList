@@ -19,19 +19,27 @@ router.get("/", (req, res) => {
 //post an item
 //by the auth we have protected the routes
 //so now not anyone can post or delete our items
-router.post("/", auth, (req, res) => {
-  const newItem = new Item({
-    name: req.body.name,
-  });
-  newItem.save().then((item) => res.json(item));
-});
+router.post(
+  "/",
+  /*auth,*/ (req, res) => {
+    const newItem = new Item({
+      name: req.body.name,
+    });
+    newItem.save().then((item) => res.json(item));
+    // uncomment auth after resolving
+  }
+);
 
 //delete an item
 //private access
-router.delete("/:id", auth, (req, res) => {
-  Item.findById(req.params.id)
-    .then((item) => item.remove().then(() => res.json({ success: true })))
-    .catch((err) => res.status(404).json({ success: false }));
-});
+router.delete(
+  "/:id",
+  /*auth,*/ (req, res) => {
+    Item.findById(req.params.id)
+      .then((item) => item.remove().then(() => res.json({ success: true })))
+      .catch((err) => res.status(404).json({ success: false }));
+    // uncomment auth after resolving
+  }
+);
 
 module.exports = router;
